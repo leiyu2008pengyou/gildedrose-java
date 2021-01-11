@@ -1,6 +1,8 @@
 package com.gildedrose;
 
-import static com.gildedrose.Constant.*;
+import static com.gildedrose.Constant.LOWEST_QUALITY;
+import static com.gildedrose.Constant.QUALITY_UPDATE_EVERY_DAY;
+
 public class Item {
 
   public String mName;
@@ -20,15 +22,30 @@ public class Item {
     return mName + ", " + mSellIn + ", " + mQuality;
   }
 
-  public boolean isAgedBrie() {
-    return mName.equals(AGED_BRIE);
+  public void updateQualityAndSellIn() {
+    updateQuality();
+    updateSellIn();
+    updateQualityWhenExpired();
   }
 
-  public boolean isBackstagePassses() {
-    return mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT);
+  protected void updateQuality() {
+    if (mQuality <= LOWEST_QUALITY) {
+      return;
+    }
+    mQuality = mQuality - QUALITY_UPDATE_EVERY_DAY;
   }
 
-  public boolean isSulfuras() {
-    return mName.equals(SULFURAS_HAND_OF_RAGNAROS);
+  protected void updateSellIn() {
+    mSellIn = mSellIn - QUALITY_UPDATE_EVERY_DAY;
+  }
+
+  protected void updateQualityWhenExpired() {
+    if (mSellIn >= LOWEST_QUALITY) {
+      return;
+    }
+    if (mQuality <= LOWEST_QUALITY) {
+      return;
+    }
+    mQuality = mQuality - QUALITY_UPDATE_EVERY_DAY;
   }
 }
