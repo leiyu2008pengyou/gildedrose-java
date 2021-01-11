@@ -2,20 +2,20 @@ package com.gildedrose;
 
 public class Item {
 
-    public String name;
+  public String mName;
 
-    public int sell_in;
+  public int mSellIn;
 
-    public int quality;
+  public int mQuality;
 
-    public Item(String name, int sell_in, int quality) {
-        this.name = name;
-        this.sell_in = sell_in;
-        this.quality = quality;
-    }
+  public Item(String name, int sellIn, int quality) {
+    mName = name;
+    mSellIn = sellIn;
+    mQuality = quality;
+  }
 
-    @Override
-    public String toString() {
-        return this.name + ", " + this.sell_in + ", " + this.quality;
-    }
+  @Override
+  public String toString() {
+    return mName + ", " + mSellIn + ", " + mQuality;
+  }
 }

@@ -1,62 +1,71 @@
 package com.gildedrose;
 
 class GildedRose {
-    Item[] items;
+  private static String AGED_BRIE = "Aged Brie";
+  private static String BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT =
+      "Backstage passes to a TAFKAL80ETC concert";
+  private static String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
 
-    public GildedRose(Item[] items) {
-        this.items = items;
-    }
+  Item[] mItems;
 
-    public void update_quality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
+  public GildedRose(Item[] items) {
+    mItems = items;
+  }
 
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sell_in < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-
-                        if (items[i].sell_in < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                items[i].sell_in = items[i].sell_in - 1;
-            }
-
-            if (items[i].sell_in < 0) {
-                if (!items[i].name.equals("Aged Brie")) {
-                    if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
-            }
+  public void update_quality() {
+    for (Item item : mItems) {
+      if (!item.mName.equals(AGED_BRIE)
+          && !item.mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT)) {
+        if (item.mQuality > 0) {
+          if (!item.mName.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+            item.mQuality = item.mQuality - 1;
+          }
         }
+      } else {
+        if (item.mQuality < 50) {
+          item.mQuality = item.mQuality + 1;
+
+          if (item.mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT)) {
+            if (item.mSellIn < 11) {
+              if (item.mQuality < 50) {
+                item.mQuality = item.mQuality + 1;
+              }
+            }
+
+            if (item.mSellIn < 6) {
+              if (item.mQuality < 50) {
+                item.mQuality = item.mQuality + 1;
+              }
+            }
+          }
+        }
+      }
+
+      if (!item.mName.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+        item.mSellIn = item.mSellIn - 1;
+      }
+
+      if (item.mSellIn < 0) {
+        if (!item.mName.equals(AGED_BRIE)) {
+          if (!item.mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT)) {
+            if (item.mQuality > 0) {
+              if (!item.mName.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+                item.mQuality = item.mQuality - 1;
+              }
+            }
+          } else {
+            item.mQuality = 0;
+          }
+        } else {
+          if (item.mQuality < 50) {
+            item.mQuality = item.mQuality + 1;
+          }
+        }
+      }
     }
+  }
+
+  private void resizeQualityIfNecessary() {
+
+  }
 }
