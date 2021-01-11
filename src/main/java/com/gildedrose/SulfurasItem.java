@@ -19,5 +19,4 @@ public class SulfurasItem extends Item {
   protected void updateQualityWhenExpired() {
 
   }
-
 }
