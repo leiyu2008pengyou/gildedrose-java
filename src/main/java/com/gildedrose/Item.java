@@ -1,10 +1,7 @@
 package com.gildedrose;
 
+import static com.gildedrose.Constant.*;
 public class Item {
-  private static String AGED_BRIE = "Aged Brie";
-  private static String BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT =
-      "Backstage passes to a TAFKAL80ETC concert";
-  private static String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
 
   public String mName;
 
