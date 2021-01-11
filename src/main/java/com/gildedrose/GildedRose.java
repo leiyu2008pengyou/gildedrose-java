@@ -1,10 +1,12 @@
 package com.gildedrose;
 
 class GildedRose {
-  private static String AGED_BRIE = "Aged Brie";
-  private static String BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT =
-      "Backstage passes to a TAFKAL80ETC concert";
-  private static String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
+  public final static int QUALITY_DECREASE_EVERY_DAY = 1;
+  public final static int QUALITY_INCREASE_EVERY_DAY = 1;
+  public final static int HIGHEST_QUALITY = 50;
+  public final static int LOWEST_QUALITY = 0;
+  public final static int TEN_DAY_BEFORE_THE_SHOW = 10;
+  public final static int FIVE_DAY_BEFORE_THE_SHOW = 5;
 
   Item[] mItems;
 
@@ -14,58 +16,63 @@ class GildedRose {
 
   public void update_quality() {
     for (Item item : mItems) {
-      if (!item.mName.equals(AGED_BRIE)
-          && !item.mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT)) {
-        if (item.mQuality > 0) {
-          if (!item.mName.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-            item.mQuality = item.mQuality - 1;
-          }
-        }
-      } else {
-        if (item.mQuality < 50) {
-          item.mQuality = item.mQuality + 1;
+      updateQuality(item);
+      updateSellIn(item);
+      updateQualityWhenExpired(item);
+    }
+  }
 
-          if (item.mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT)) {
-            if (item.mSellIn < 11) {
-              if (item.mQuality < 50) {
-                item.mQuality = item.mQuality + 1;
-              }
-            }
-
-            if (item.mSellIn < 6) {
-              if (item.mQuality < 50) {
-                item.mQuality = item.mQuality + 1;
-              }
-            }
-          }
+  private void updateQuality(Item item) {
+    if (!item.isAgedBrie() && !item.isBackstagePassses()) {
+      if (item.mQuality > LOWEST_QUALITY) {
+        if (!item.isSulfuras()) {
+          item.mQuality = item.mQuality - QUALITY_DECREASE_EVERY_DAY;
         }
       }
+    } else {
+      if (item.mQuality < HIGHEST_QUALITY) {
+        item.mQuality = item.mQuality + QUALITY_INCREASE_EVERY_DAY;
 
-      if (!item.mName.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-        item.mSellIn = item.mSellIn - 1;
-      }
-
-      if (item.mSellIn < 0) {
-        if (!item.mName.equals(AGED_BRIE)) {
-          if (!item.mName.equals(BACKSTAGE_PASSSES_TO_A_TAFKAL80ETC_CONCERT)) {
-            if (item.mQuality > 0) {
-              if (!item.mName.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                item.mQuality = item.mQuality - 1;
-              }
+        if (item.isBackstagePassses()) {
+          if (item.mSellIn <= TEN_DAY_BEFORE_THE_SHOW) {
+            if (item.mQuality < HIGHEST_QUALITY) {
+              item.mQuality = item.mQuality + QUALITY_INCREASE_EVERY_DAY;
             }
-          } else {
-            item.mQuality = 0;
           }
-        } else {
-          if (item.mQuality < 50) {
-            item.mQuality = item.mQuality + 1;
+
+          if (item.mSellIn <= FIVE_DAY_BEFORE_THE_SHOW) {
+            if (item.mQuality < HIGHEST_QUALITY) {
+              item.mQuality = item.mQuality + QUALITY_INCREASE_EVERY_DAY;
+            }
           }
         }
       }
     }
   }
 
-  private void resizeQualityIfNecessary() {
+  private void updateSellIn(Item item) {
+    if (!item.isSulfuras()) {
+      item.mSellIn = item.mSellIn - QUALITY_DECREASE_EVERY_DAY;
+    }
+  }
 
+  private void updateQualityWhenExpired(Item item) {
+    if (item.mSellIn < LOWEST_QUALITY) {
+      if (!item.isAgedBrie()) {
+        if (!item.isBackstagePassses()) {
+          if (item.mQuality > LOWEST_QUALITY) {
+            if (!item.isSulfuras()) {
+              item.mQuality = item.mQuality - QUALITY_DECREASE_EVERY_DAY;
+            }
+          }
+        } else {
+          item.mQuality = LOWEST_QUALITY;
+        }
+      } else {
+        if (item.mQuality < HIGHEST_QUALITY) {
+          item.mQuality = item.mQuality + QUALITY_INCREASE_EVERY_DAY;
+        }
+      }
+    }
   }
 }
